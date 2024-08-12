@@ -3,3 +3,4 @@ chromadb
 langchain
 langchain-google-vertexai
 pypdf
+service

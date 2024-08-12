@@ -7,6 +7,17 @@ from tasks.task_3.task_3 import DocumentProcessor
 from tasks.task_4.task_4 import EmbeddingClient
 from tasks.task_5.task_5 import ChromaCollectionCreator
 from tasks.task_8.task_8 import QuizGenerator
+from langchain_core.prompts import PromptTemplate
+from langchain_google_vertexai import VertexAI
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.runnables import RunnablePassthrough
+import streamlit as st
+import os
+import sys
+import json
+sys.path.append(os.path.abspath('../../'))
+
+
 
 class QuizManager:
     ##########################################################
@@ -27,7 +38,8 @@ class QuizManager:
         Note: This initialization method is crucial for setting the foundation of the `QuizManager` class, enabling it to manage the quiz questions effectively. The class will rely on this setup to perform operations such as retrieving specific questions by index and navigating through the quiz.
         """
         ##### YOUR CODE HERE #####
-        pass # Placeholder
+        self.questions = questions
+        self.total_questions = len(self.questions)
     ##########################################################
 
     def get_question_at_index(self, index: int):
@@ -61,9 +73,12 @@ class QuizManager:
 
         Note: Ensure that `st.session_state["question_index"]` is initialized before calling this method. This navigation method enhances the user experience by providing fluid access to quiz questions.
         """
+
         ##### YOUR CODE HERE #####
-        pass  # Placeholder for implementation
-    ##########################################################
+        current_question_index = st.session_state["question_index"]
+        new_index = (current_question_index+direction) % self.total_questions
+        st.session_state["question_index"] = new_index
+        ##########################################################
 
 
 # Test Generating the Quiz
@@ -71,7 +86,7 @@ if __name__ == "__main__":
     
     embed_config = {
         "model_name": "textembedding-gecko@003",
-        "project": "YOUR-PROJECT-ID-HERE",
+        "project": "quizzify-428916",
         "location": "us-central1"
     }
     
@@ -112,11 +127,11 @@ if __name__ == "__main__":
             
             # Task 9
             ##########################################################
-            quiz_manager = # Use our new QuizManager class
+            quiz_manager = QuizManager(question_bank) # Use our new QuizManager class
             # Format the question and display
             with st.form("Multiple Choice Question"):
                 ##### YOUR CODE HERE #####
-                index_question = # Use the get_question_at_index method to set the 0th index
+                index_question = quiz_manager.get_question_at_index(0)  # Use the get_question_at_index method to set the 0th index
                 ##### YOUR CODE HERE #####
                 
                 # Unpack choices for radio
@@ -125,11 +140,16 @@ if __name__ == "__main__":
                     ##### YOUR CODE HERE #####
                     # Set the key from the index question 
                     # Set the value from the index question
+
+                    key = choice["key"]
+                    value = choice["value"]
+
                     ##### YOUR CODE HERE #####
                     choices.append(f"{key}) {value}")
                 
                 ##### YOUR CODE HERE #####
                 # Display the question onto streamlit
+                st.subheader(index_question['question'])
                 ##### YOUR CODE HERE #####
                 
                 answer = st.radio( # Display the radio button with the choices
