@@ -1,0 +1,16 @@
+app: quizify-ai
+env: modest-thunder
+namespace: default
+chart:
+  repository: https://chart.onechart.dev
+  name: onechart
+  version: 0.70.0
+values:
+  gitRepository: HamimMahdie/QuizifyAI
+  gitSha: '{{ .SHA }}'
+  image:
+    registry: public
+    strategy: static
+    tag: "1.27"
+  resources:
+    ignoreLimits: true
