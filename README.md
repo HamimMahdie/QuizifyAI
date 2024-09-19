@@ -34,7 +34,8 @@ To set up the Quiz Builder:
 3. Install the necessary dependencies:
     ```bash
     pip install -r requirements.txt
-3. Replace Project ID with Unique Project ID from desired AI model (In this model vertex AI Google Gemini was used over google cloud server)
+4. Replace Project ID with Unique Project ID from desired AI model (In this model vertex AI Google Gemini was used over google cloud server)
+5. Alternatively, use the dockerfile to build and run from docker.
    
 ## Usage
 To run the Quiz Builder:
